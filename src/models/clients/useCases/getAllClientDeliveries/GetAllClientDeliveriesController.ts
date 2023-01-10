@@ -6,6 +6,7 @@ export class GetAllClientDeliveriesController {
     const { id_client } = request;
 
     const getAllClientDeliveriesUseCase = new GetAllClientDeliveriesUseCase();
+    
     const deliveries = await getAllClientDeliveriesUseCase.execute({
       id_client,
     });

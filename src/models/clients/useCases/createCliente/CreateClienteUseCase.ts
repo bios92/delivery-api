@@ -9,7 +9,6 @@ interface ICreateCliente {
 
 export class CreateClientUseCase {
   async execute({ username, password }: ICreateCliente) {
-    //Validar se o usuario existe
     const isClientExist = await prisma.clients.findFirst({
       where: { username },
     });
@@ -18,10 +17,8 @@ export class CreateClientUseCase {
       throw new Error(MESSAGES.USERNAME_ALREADY_EXIST);
     }
 
-    //Criptografar a senha
     const hashPassword = await hash(password, 10);
 
-    //Salvar o cliente
     const client = await prisma.clients.create({
       data: {
         username,

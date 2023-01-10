@@ -6,7 +6,6 @@ interface IGetAllClientDeliveries {
 
 export class GetAllClientDeliveriesUseCase {
   async execute({ id_client }: IGetAllClientDeliveries) {
-    //A partir do cliente pegar as suas entregas
     const deliveries = await prisma.clients.findUnique({
       where: { id: id_client },
       select: {
@@ -15,7 +14,7 @@ export class GetAllClientDeliveriesUseCase {
         deliveries: true,
       },
     });
-
+    
     return deliveries;
   }
 }
