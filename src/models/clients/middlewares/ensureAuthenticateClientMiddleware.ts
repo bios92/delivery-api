@@ -6,26 +6,19 @@ interface IPayload {
   sub: string;
 }
 
-export async function ensureAuthenticateDeliveryman(
+export async function ensureAuthenticateClientMiddleware(
   request: Request,
   response: Response,
   next: NextFunction
 ) {
-  const authHeader = request.headers.authorization;
-
-  if (!authHeader) {
-    return response.status(401).json({
-      message: MESSAGES.TOKEN_MISSING,
-    });
+  const bearerToken = request.headers.authorization;
+  if (!bearerToken) {
+    return response.status(401).json({ message: MESSAGES.TOKEN_MISSING });
   }
-
-  const [_, token] = authHeader.split(" ");
-
+  const [_, token] = bearerToken.split(" ");
   try {
-    const { sub } = verify(token, SECRETS.DELIVERYMAN) as IPayload;
-
-    request.id_deliveryman = sub;
-
+    const { sub } = verify(token, SECRETS.CLIENT) as IPayload;
+    request.id_client = sub;
     return next();
   } catch (error) {
     return response.status(401).json({ message: MESSAGES.TOKEN_INVALID });

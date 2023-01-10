@@ -19,7 +19,6 @@ export class AuthenticateDeliverymanUseCase {
     }
 
     const passwordMatch = await compare(password, deliveryman.password);
-
     if (!passwordMatch) {
       throw new Error(MESSAGES.LOGIN_INVALID);
     }
